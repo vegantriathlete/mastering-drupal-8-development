@@ -24,7 +24,7 @@ The "settings.php" file is included in the repository and will be updated every 
 You've always got the branches available to you, so feel free to experiment with checking out branches and using the files and it will all make sense!
 
 ## Signing in to the site
-user: admin
+user: admin  
 password: admin
 
 ## About Marc
