@@ -4,13 +4,13 @@ This repository contains all of the code to run a Drupal 8 site. It is the case 
 ## The 'student comments' in the code
 The code samples are meant to represent best practices, including proper DocBlock and code comments. To differentiate comments that are directed towards the student we will use the format:
 
-```/******************************************************************************
-``` **                                                                          **
-``` ** This is an example of 'student comments.' These comments will always be  **
-``` ** flush left, regardless of the indentation of the rest of the code near   **
-``` ** them.                                                                    **
-``` **                                                                          **
-``` ******************************************************************************/
+    /******************************************************************************
+     **                                                                          **
+     ** This is an example of 'student comments.' These comments will always be  **
+     ** flush left, regardless of the indentation of the rest of the code near   **
+     ** them.                                                                    **
+     **                                                                          **
+     ******************************************************************************/
 
 ## Using the repository
 The repository is organized into branches that correspond to the different sections of the course, occasionally with additional branches within a section. The master branch is from immediately after installing Drupal. The "section-01" branch is a duplicate of the master branch. Within each branch there is a setup directory that contains a .tar.gz of the database and a .tar.gz of the configuration.
