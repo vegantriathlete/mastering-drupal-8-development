@@ -1,7 +1,7 @@
 <?php
 
-/* core/themes/stable/templates/admin/views-ui-container.html.twig */
-class __TwigTemplate_c0dd7478c8d344db41f8924dd9e6362d8a9899fae48a177e6761d81ae0c94af6 extends Twig_Template
+/* core/themes/classy/templates/form/radios.html.twig */
+class __TwigTemplate_35fd7381c7d94900cc264140f61c6534588e4eaf81217476901761785206ea66 extends Twig_Template
 {
     public function __construct(Twig_Environment $env)
     {
@@ -39,9 +39,9 @@ class __TwigTemplate_c0dd7478c8d344db41f8924dd9e6362d8a9899fae48a177e6761d81ae0c
             throw $e;
         }
 
-        // line 11
+        // line 13
         echo "<div";
-        echo $this->env->getExtension('sandbox')->ensureToStringAllowed($this->env->getExtension('drupal_core')->escapeFilter($this->env, (isset($context["attributes"]) ? $context["attributes"] : null), "html", null, true));
+        echo $this->env->getExtension('sandbox')->ensureToStringAllowed($this->env->getExtension('drupal_core')->escapeFilter($this->env, $this->getAttribute((isset($context["attributes"]) ? $context["attributes"] : null), "addClass", array(0 => "form-radios"), "method"), "html", null, true));
         echo ">";
         echo $this->env->getExtension('sandbox')->ensureToStringAllowed($this->env->getExtension('drupal_core')->escapeFilter($this->env, (isset($context["children"]) ? $context["children"] : null), "html", null, true));
         echo "</div>
@@ -50,7 +50,7 @@ class __TwigTemplate_c0dd7478c8d344db41f8924dd9e6362d8a9899fae48a177e6761d81ae0c
 
     public function getTemplateName()
     {
-        return "core/themes/stable/templates/admin/views-ui-container.html.twig";
+        return "core/themes/classy/templates/form/radios.html.twig";
     }
 
     public function isTraitable()
@@ -60,7 +60,7 @@ class __TwigTemplate_c0dd7478c8d344db41f8924dd9e6362d8a9899fae48a177e6761d81ae0c
 
     public function getDebugInfo()
     {
-        return array (  43 => 11,);
+        return array (  43 => 13,);
     }
 
     public function getSource()
@@ -68,14 +68,16 @@ class __TwigTemplate_c0dd7478c8d344db41f8924dd9e6362d8a9899fae48a177e6761d81ae0c
         return "{#
 /**
  * @file
- * Theme override for a generic views UI container/wrapper.
+ * Theme override for a 'radios' #type form element.
  *
- * Available variables:
- * - attributes: HTML attributes to apply to the container element.
- * - children: The remaining elements such as dropbuttons and tabs.
+ * Available variables
+ * - attributes: A list of HTML attributes for the wrapper element.
+ * - children: The rendered radios.
+ *
+ * @see template_preprocess_radios()
  */
 #}
-<div{{ attributes }}>{{ children }}</div>
+<div{{ attributes.addClass('form-radios') }}>{{ children }}</div>
 ";
     }
 }
