@@ -1,0 +1,50 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - iai_product_guide
+id: iai-product-guide
+label: 'Product Guide'
+module: iai_product_guide
+routes:
+  - route_name: entity.node.canonical
+tips:
+  introduction:
+    id: introduction
+    plugin: text
+    label: 'Welcome to our product guides!'
+    body: 'Our product guides are meant to help you learn about our products.'
+    weight: 1
+  reading-the-book-page:
+    id: reading-the-book-page
+    plugin: text
+    label: 'Reading the book page'
+    body: 'Each guide is part of a book, which is composed of book pages.'
+    weight: 2
+    location: bottom
+    attributes:
+      data-class: node--type-book
+  navigating-the-book:
+    id: navigating-the-book
+    plugin: text
+    label: 'Navigating the book'
+    body: 'Each book page provides you with a means to navigate the book. Some pages have children pages and some do not.'
+    weight: 3
+    location: bottom
+    attributes:
+      data-class: book-navigation
+  viewing-product-images:
+    id: viewing-product-images
+    plugin: text
+    label: 'Viewing product images'
+    body: 'Each page present thumbnails of product images. If you click a thumbnail it will open a modal with a larger size image.'
+    weight: 4
+    location: bottom
+    attributes:
+      data-class: block-iai-pig
+  goodbye:
+    id: goodbye
+    plugin: text
+    label: 'Good bye!'
+    body: 'Thanks for taking the tour of our product guides. We hope you enjoy them!'
+    weight: 5
