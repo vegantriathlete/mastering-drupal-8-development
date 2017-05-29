@@ -109,7 +109,7 @@ class TourLinkBlock extends BlockBase implements ContainerFactoryPluginInterface
       $url = Url::fromRoute('<current>', array(), array('query' => array('tour' => 1)));
       $build['tour_link']= [
         '#type' => 'markup',
-        '#markup' => Link::fromTextAndUrl(t('Take the tour!'), $url)->toString(),
+        '#markup' => Link::fromTextAndUrl($this->t('Take the tour!'), $url)->toString(),
       ];
       $build['#attached']['library'][] = 'tour/tour';
       return $build;
