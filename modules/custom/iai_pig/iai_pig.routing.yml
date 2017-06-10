@@ -1,0 +1,7 @@
+iai_pig.display_product_image:
+  path: '/iai_pig/display_product_image/{node}/{delta}'
+  defaults:
+    _controller: '\Drupal\iai_pig\Controller\DisplayProductImage::displayProductImage'
+    _title: 'Product Image Display'
+  requirements:
+    _permission: 'access content'
