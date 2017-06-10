@@ -1,0 +1,44 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.aquifer.field_aquifer_coordinates
+    - field.field.node.aquifer.field_aquifer_status
+    - field.field.node.aquifer.field_aquifer_volume
+    - node.type.aquifer
+  module:
+    - options
+    - user
+id: node.aquifer.default
+targetEntityType: node
+bundle: aquifer
+mode: default
+content:
+  field_aquifer_coordinates:
+    weight: 101
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_aquifer_status:
+    weight: 102
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
+  field_aquifer_volume:
+    weight: 103
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  links:
+    weight: 100
+    region: content
+hidden:
+  langcode: true
