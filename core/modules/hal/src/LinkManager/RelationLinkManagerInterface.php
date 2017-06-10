@@ -21,7 +21,7 @@ interface RelationLinkManagerInterface extends ConfigurableLinkManagerInterface 
    *   (optional) Optional serializer/normalizer context.
    *
    * @return string
-   *   The corresponding URI for the field.
+   *   The corresponding URI (or IANA link relation type) for the field.
    */
   public function getRelationUri($entity_type, $bundle, $field_name, $context = []);
 
@@ -29,10 +29,12 @@ interface RelationLinkManagerInterface extends ConfigurableLinkManagerInterface 
    * Translates a REST URI into internal IDs.
    *
    * @param string $relation_uri
-   *   Relation URI to transform into internal IDs
+   *   Relation URI (or IANA link relation type) to transform into internal IDs.
    *
    * @return array
-   *   Array with keys 'entity_type', 'bundle' and 'field_name'.
+   *   Array with keys 'entity_type_id', 'bundle' and 'field_name'. For
+   *   backwards compatibility, the entity_type key returns the full entity type
+   *   object, this will be removed before Drupal 9.0.
    */
   public function getRelationInternalIds($relation_uri);
 
