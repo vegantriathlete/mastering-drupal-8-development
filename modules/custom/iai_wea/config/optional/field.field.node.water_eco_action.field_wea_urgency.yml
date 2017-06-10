@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_wea_urgency
+    - node.type.water_eco_action
+  module:
+    - options
+id: node.water_eco_action.field_wea_urgency
+field_name: field_wea_urgency
+entity_type: node
+bundle: water_eco_action
+label: Urgency
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string
