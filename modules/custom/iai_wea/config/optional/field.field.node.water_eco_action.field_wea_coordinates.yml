@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_wea_coordinates
+    - node.type.water_eco_action
+id: node.water_eco_action.field_wea_coordinates
+field_name: field_wea_coordinates
+entity_type: node
+bundle: water_eco_action
+label: Coordinates
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
