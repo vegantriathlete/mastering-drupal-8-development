@@ -1,0 +1,24 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.aquifer.field_aquifer_coordinates
+    - field.field.node.aquifer.field_aquifer_status
+    - field.field.node.aquifer.field_aquifer_volume
+    - node.type.aquifer
+  module:
+    - user
+id: node.aquifer.teaser
+targetEntityType: node
+bundle: aquifer
+mode: teaser
+content:
+  links:
+    weight: 100
+    region: content
+hidden:
+  field_aquifer_coordinates: true
+  field_aquifer_status: true
+  field_aquifer_volume: true
+  langcode: true
