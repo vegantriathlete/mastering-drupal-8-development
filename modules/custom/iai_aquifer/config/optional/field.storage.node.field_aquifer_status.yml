@@ -1,0 +1,38 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_aquifer_status
+field_name: field_aquifer_status
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: empty
+      label: Empty
+    -
+      value: critical
+      label: Critical
+    -
+      value: low
+      label: Low
+    -
+      value: adequate
+      label: Adequate
+    -
+      value: full
+      label: Full
+    -
+      value: overflowing
+      label: Overflowing
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
