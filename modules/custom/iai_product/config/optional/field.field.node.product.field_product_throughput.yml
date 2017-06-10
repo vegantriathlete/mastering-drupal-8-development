@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_throughput
+    - node.type.product
+id: node.product.field_product_throughput
+field_name: field_product_throughput
+entity_type: node
+bundle: product
+label: 'Product Throughput'
+description: 'Enter the volume of water this product can process per hour.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  max: null
+  prefix: ''
+  suffix: ' gallons / hour'
+field_type: integer

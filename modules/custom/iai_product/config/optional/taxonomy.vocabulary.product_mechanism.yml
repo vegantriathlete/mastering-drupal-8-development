@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+name: Mechanism
+vid: product_mechanism
+description: ''
+hierarchy: 0
+weight: 0

@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+name: product_thumbnail
+label: 'Product Thumbnail'
+effects:
+  9c8785bb-2464-49d4-bd72-3e9559eea8a6:
+    uuid: 9c8785bb-2464-49d4-bd72-3e9559eea8a6
+    id: image_scale
+    weight: 1
+    data:
+      width: 100
+      height: null
+      upscale: false
