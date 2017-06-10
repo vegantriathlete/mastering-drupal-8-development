@@ -15,6 +15,11 @@ class MigrateFieldWidgetSettingsTest extends MigrateDrupal6TestBase {
   /**
    * {@inheritdoc}
    */
+  public static $modules = ['menu_ui'];
+
+  /**
+   * {@inheritdoc}
+   */
   protected function setUp() {
     parent::setUp();
     $this->migrateFields();
@@ -96,6 +101,16 @@ class MigrateFieldWidgetSettingsTest extends MigrateDrupal6TestBase {
     $component = $form_display->getComponent('field_test_datetime');
     $expected['weight'] = 12;
     $this->assertIdentical($expected, $component);
+
+    $component = entity_get_form_display('node', 'employee', 'default')
+      ->getComponent('field_company');
+    $this->assertInternalType('array', $component);
+    $this->assertSame('options_select', $component['type']);
+
+    $component = entity_get_form_display('node', 'employee', 'default')
+      ->getComponent('field_commander');
+    $this->assertInternalType('array', $component);
+    $this->assertSame('options_select', $component['type']);
   }
 
 }
