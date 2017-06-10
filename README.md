@@ -27,6 +27,9 @@ You've always got the branches available to you, so feel free to experiment with
 user: admin  
 password: admin
 
+## The version of Drupal in use
+The course started out using Drupal 8.3.1. In Section 5 I updated to use Drupal 8.3.3. There were no database updates required.
+
 ## About Marc
 In a prior lifetime, Marc was an AS/400 RPG application developer. He left the programming field entirely in 2001 to pursue other interests, including teach High School Math. Marc first fell in love with Drupal in 2008 when he was playing around with creating websites for his own projects. At the time, he didn't have any intention of returning to the programming field; Drupal was just a tool that helped him to get the job done.
 
