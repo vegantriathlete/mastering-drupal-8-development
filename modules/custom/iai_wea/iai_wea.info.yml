@@ -1,0 +1,8 @@
+name: Water Eco Action
+description: The custom content type (water_eco_action) and all of its corresponding functionality
+package: MD8D
+type: module
+core: 8.x
+dependencies:
+  - node
+  - options
