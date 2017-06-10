@@ -14,7 +14,7 @@ class FieldLayoutTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = ['field_layout', 'field_ui', 'node'];
+  public static $modules = ['field_layout', 'field_ui', 'node', 'field_layout_test'];
 
   /**
    * {@inheritdoc}
@@ -50,11 +50,27 @@ class FieldLayoutTest extends BrowserTestBase {
     // By default, the one-column layout is used.
     $this->drupalGet('node/1');
     $this->assertSession()->elementExists('css', '.layout--onecol');
-    $this->assertSession()->elementExists('css', '.layout-region--content .field--name-body');
+    $this->assertSession()->elementExists('css', '.layout__region--content .field--name-body');
 
     $this->drupalGet('admin/structure/types/manage/article/display');
     $this->assertEquals(['Content', 'Disabled'], $this->getRegionTitles());
     $this->assertSession()->optionExists('fields[body][region]', 'content');
+  }
+
+  /**
+   * Tests that changes to the regions still leave the fields visible.
+   */
+  public function testRegionChanges() {
+    $this->drupalGet('admin/structure/types/manage/article/display');
+    $this->assertEquals(['Content', 'Disabled'], $this->getRegionTitles());
+    $this->assertSession()->optionExists('fields[body][region]', 'content');
+
+    \Drupal::state()->set('field_layout_test.alter_regions', TRUE);
+    \Drupal::service('plugin.cache_clearer')->clearCachedDefinitions();
+
+    $this->drupalGet('admin/structure/types/manage/article/display');
+    $this->assertEquals(['Foo', 'Disabled'], $this->getRegionTitles());
+    $this->assertSession()->optionExists('fields[body][region]', 'hidden');
   }
 
   /**
