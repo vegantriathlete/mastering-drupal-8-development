@@ -32,7 +32,7 @@ In a prior lifetime, Marc was an AS/400 RPG application developer. He left the p
 
 After a series of life events conspired to bring him back to programming, he decided to teach himself to be a web developer. Naturally, he chose Drupal as the tool to learn. Marc started building websites for clients in 2010 and now specializes in using Drupal as a framework to build custom web applications.
 
-Marc has attended and presented at many Drupal camps, including DrupalCamp Colorado, BADCamp, MidCamp, Drupal Camp Utah and Texas Camp. He attended DrupalCons in Denver, Portland, Austin, Los Angeles and New Orleans. He was a Core Sprint Mentor in New Orleans.
+Marc has attended and presented at many Drupal camps, including DrupalCamp Colorado, BADCamp, MidCamp, Drupal Camp Utah, Texas Camp and Twin Cities Drupal Camp. He attended DrupalCons in Denver, Portland, Austin, Los Angeles and New Orleans. He was a Core Sprint Mentor in New Orleans.
 
 ### Some places you can find Marc online:
 * https://www.drupal.org/u/vegantriathlete
