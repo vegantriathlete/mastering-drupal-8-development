@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+name: Process
+vid: product_process
+description: ''
+hierarchy: 0
+weight: 0

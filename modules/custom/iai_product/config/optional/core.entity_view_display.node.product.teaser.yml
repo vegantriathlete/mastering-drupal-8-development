@@ -1,0 +1,41 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.product.field_product_description
+    - field.field.node.product.field_product_image
+    - field.field.node.product.field_product_mechanism
+    - field.field.node.product.field_product_portability
+    - field.field.node.product.field_product_process
+    - field.field.node.product.field_product_throughput
+    - field.field.node.product.field_product_use_case
+    - node.type.product
+  module:
+    - text
+    - user
+id: node.product.teaser
+targetEntityType: node
+bundle: product
+mode: teaser
+content:
+  field_product_description:
+    type: text_default
+    weight: 0
+    region: content
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+  links:
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_product_image: true
+  field_product_mechanism: true
+  field_product_portability: true
+  field_product_process: true
+  field_product_throughput: true
+  field_product_use_case: true
+  langcode: true

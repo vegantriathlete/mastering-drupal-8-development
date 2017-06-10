@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: product_path_aliases_in_english
+label: 'Product path aliases in English'
+type: 'canonical_entities:node'
+pattern: 'product/[node:title]'
+selection_criteria:
+  cbf97978-e0cd-4909-9ebd-00160e861099:
+    id: node_type
+    bundles:
+      product: product
+    negate: false
+    context_mapping:
+      node: node
+    uuid: cbf97978-e0cd-4909-9ebd-00160e861099
+selection_logic: and
+weight: -5
+relationships: {  }
