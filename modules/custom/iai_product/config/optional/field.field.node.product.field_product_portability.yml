@@ -1,0 +1,27 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_portability
+    - node.type.product
+    - taxonomy.vocabulary.product_portability
+id: node.product.field_product_portability
+field_name: field_product_portability
+entity_type: node
+bundle: product
+label: Portability
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      product_portability: product_portability
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
