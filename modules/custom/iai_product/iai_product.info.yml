@@ -1,0 +1,15 @@
+name: Product
+description: Custom content type configuration for IAI's products
+package: MD8D
+type: module
+core: 8.x
+dependencies:
+  - colorbox
+  - file
+  - image
+  - menu_ui
+  - node
+  - path
+  - taxonomy
+  - text
+  - user
