@@ -1,0 +1,38 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_wea_status
+field_name: field_wea_status
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: pending
+      label: Pending
+    -
+      value: active
+      label: 'In Progress'
+    -
+      value: completed
+      label: Completed
+    -
+      value: cancelled
+      label: Cancelled
+    -
+      value: postponed
+      label: Postponed
+    -
+      value: paused
+      label: Paused
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
