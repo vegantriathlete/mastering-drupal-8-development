@@ -53,6 +53,7 @@ class ContentModerationStateTest extends KernelTestBase {
     $this->installEntitySchema('user');
     $this->installEntitySchema('entity_test_with_bundle');
     $this->installEntitySchema('entity_test_rev');
+    $this->installEntitySchema('entity_test_no_bundle');
     $this->installEntitySchema('entity_test_mulrevpub');
     $this->installEntitySchema('block_content');
     $this->installEntitySchema('content_moderation_state');
@@ -94,6 +95,9 @@ class ContentModerationStateTest extends KernelTestBase {
       'title' => 'Test title',
       $this->entityTypeManager->getDefinition($entity_type_id)->getKey('bundle') => $bundle_id,
     ]);
+    if ($entity instanceof EntityPublishedInterface) {
+      $entity->setUnpublished();
+    }
     $entity->save();
     $entity = $this->reloadEntity($entity);
     $this->assertEquals('draft', $entity->moderation_state->value);
@@ -178,7 +182,10 @@ class ContentModerationStateTest extends KernelTestBase {
       ],
       'Entity Test with revisions' => [
         'entity_test_rev',
-      ]
+      ],
+      'Entity without bundle' => [
+        'entity_test_no_bundle',
+      ],
     ];
   }
 
@@ -400,6 +407,7 @@ class ContentModerationStateTest extends KernelTestBase {
     // Test both a config and non-config based bundle and entity type.
     $workflow->getTypePlugin()->addEntityTypeAndBundle('node', 'example');
     $workflow->getTypePlugin()->addEntityTypeAndBundle('entity_test_rev', 'entity_test_rev');
+    $workflow->getTypePlugin()->addEntityTypeAndBundle('entity_test_no_bundle', 'entity_test_no_bundle');
     $workflow->save();
 
     $this->assertEquals([
@@ -412,9 +420,11 @@ class ContentModerationStateTest extends KernelTestBase {
       ],
     ], $workflow->getDependencies());
 
-    $entity_types = $workflow->getTypePlugin()->getEntityTypes();
-    $this->assertTrue(in_array('node', $entity_types));
-    $this->assertTrue(in_array('entity_test_rev', $entity_types));
+    $this->assertEquals([
+      'entity_test_no_bundle',
+      'entity_test_rev',
+      'node'
+    ], $workflow->getTypePlugin()->getEntityTypes());
 
     // Delete the node type and ensure it is removed from the workflow.
     $node_type->delete();
@@ -426,7 +436,7 @@ class ContentModerationStateTest extends KernelTestBase {
     $this->container->get('config.manager')->uninstall('module', 'entity_test');
     $workflow = Workflow::load('editorial');
     $entity_types = $workflow->getTypePlugin()->getEntityTypes();
-    $this->assertFalse(in_array('entity_test_rev', $entity_types));
+    $this->assertEquals([], $entity_types);
   }
 
   /**
