@@ -70,6 +70,14 @@ class MigrateUpgradeForm extends ConfirmFormBase {
       'source_module' => 'block',
       'destination_module' => 'block',
     ],
+    'block_content_entity_form_display' => [
+      'source_module' => 'block',
+      'destination_module' => 'block_content',
+    ],
+    'block_content_entity_display' => [
+      'source_module' => 'block',
+      'destination_module' => 'block_content',
+    ],
     'block_content_body_field' => [
       'source_module' => 'block',
       'destination_module' => 'block_content',
@@ -426,7 +434,7 @@ class MigrateUpgradeForm extends ConfirmFormBase {
       'source_module' => 'simpletest',
       'destination_module' => 'simpletest',
     ],
-    'd6_statistics_settings' => [
+    'statistics_settings' => [
       'source_module' => 'statistics',
       'destination_module' => 'statistics',
     ],
@@ -581,6 +589,10 @@ class MigrateUpgradeForm extends ConfirmFormBase {
     'd6_profile_values' => [
       'source_module' => 'profile',
       'destination_module' => 'user',
+    ],
+    'd7_theme_settings' => [
+      'source_module' => 'system',
+      'destination_module' => 'system',
     ],
     'd6_user' => [
       'source_module' => 'user',
@@ -791,6 +803,9 @@ class MigrateUpgradeForm extends ConfirmFormBase {
       $info[] = $this->t('Make sure that the host this site is on has access to the database for your previous site.');
       $info[] = $this->t('If your previous site has private files to be migrated, a copy of your files directory must be accessible on the host this site is on.');
       $info[] = $this->t('In general, enable all modules on this site that are enabled on the previous site. For example, if you have used the book module on the previous site then you must enable the book module on this site for that data to be available on this site.');
+      $info[] = $this->t('Do not add any information on this site (including but not limited to user accounts, taxonomy terms, and node content) before upgrading. Any pre-existing information on the site risks being overwritten by the upgrade process. See <a href=":url">the upgrade preparation guide</a> for more information.', [
+        ':url' => 'https://www.drupal.org/docs/8/upgrade/preparing-an-upgrade#dont_create_content',
+      ]);
       $info[] = $this->t('Put this site into <a href=":url">maintenance mode</a>.', [
         ':url' => Url::fromRoute('system.site_maintenance_mode')->toString(TRUE)->getGeneratedUrl(),
       ]);
