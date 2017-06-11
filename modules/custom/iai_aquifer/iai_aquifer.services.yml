@@ -1,0 +1,6 @@
+parameters:
+  rest_endpoint: 'http://www.example.com/api/'
+services:
+  aquifer.aquifer_retrieval_service:
+    class: Drupal\aquifer\AquiferRetrievalService
+    arguments: ['%rest_endpoint%']
