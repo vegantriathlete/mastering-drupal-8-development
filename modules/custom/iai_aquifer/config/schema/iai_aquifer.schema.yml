@@ -1,0 +1,9 @@
+# Schema for the configuration files of the IAI aquifer module.
+
+block.settings.aquifer_block:
+  type: block_settings
+  label: 'Aquifer block'
+  mapping:
+    block_count:
+      type: integer
+      label: 'Block count'
