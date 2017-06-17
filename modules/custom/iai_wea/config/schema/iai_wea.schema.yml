@@ -1,0 +1,9 @@
+# Schema for the configuration files of the iai_pig module.
+
+block.settings.eco_action_block:
+  type: block_settings
+  label: 'Nearby Eco Actions'
+  mapping:
+    block_count:
+      type: integer
+      label: 'Block count'
