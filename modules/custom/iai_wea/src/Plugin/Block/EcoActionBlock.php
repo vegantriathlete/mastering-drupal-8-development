@@ -3,9 +3,12 @@
 namespace Drupal\iai_wea\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Link;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -28,6 +31,23 @@ class EcoActionBlock extends BlockBase implements ContainerFactoryPluginInterfac
 
 /******************************************************************************
  **                                                                          **
+ ** We are going to use the Entity Repository to get the correct translation **
+ ** of the Aquifer. We know that we have only English language versions on   **
+ ** our site. However, we should always write our code to be ready for a     **
+ ** multi-lingual site. We can't assume that the code will be running on a   **
+ ** site with only one language. Thus, we will take the necessary steps in   **
+ ** our code even before we get to the Multi-lingual section of the course.  **
+ **                                                                          **
+ ******************************************************************************/
+  /**
+   * The entity repository.
+   *
+   * @var \Drupal\Core\Entity\EntityRepositoryInterface
+   */
+  protected $entityRepository;
+
+/******************************************************************************
+ **                                                                          **
  ** This is an example of Dependency Injection. The necessary objects are    **
  ** being injected through the class's constructor.                          **
  **                                                                          **
@@ -43,10 +63,13 @@ class EcoActionBlock extends BlockBase implements ContainerFactoryPluginInterfac
    *   The plugin implementation definition.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
+   * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
+   *   The entity repository.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, EntityRepositoryInterface $entity_repository) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->nodeStorage = $entity_type_manager->getStorage('node');
+    $this->entityRepository = $entity_repository;
   }
 
 /******************************************************************************
@@ -75,7 +98,8 @@ class EcoActionBlock extends BlockBase implements ContainerFactoryPluginInterfac
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('entity.repository')
     );
   }
 
@@ -83,23 +107,75 @@ class EcoActionBlock extends BlockBase implements ContainerFactoryPluginInterfac
    * {@inheritdoc}
    */
   public function defaultConfiguration() {
+    // By default, the block will contain 5 items and set the radius to 10.
+    return array(
+      'block_count' => 5,
+    );
   }
 
   /**
    * {@inheritdoc}
    */
   public function blockForm($form, FormStateInterface $form_state) {
+    $range = range(2, 20);
+    $form['block_count'] = array(
+      '#type' => 'select',
+      '#title' => $this->t('Number of action items in block'),
+      '#default_value' => $this->configuration['block_count'],
+      '#options' => array_combine($range, $range),
+    );
+    return $form;
   }
 
   /**
    * {@inheritdoc}
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
+    $this->configuration['block_count'] = $form_state->getValue('block_count');
   }
 
   /**
    * {@inheritdoc}
    */
   public function build() {
+
+/******************************************************************************
+ **                                                                          **
+ ** We are just retrieving all of the eco actions. In a real situation we    **
+ ** would do something like filtering the actions so that they were within a **
+ ** certain radius of the user.                                              **
+ **                                                                          **
+ ******************************************************************************/
+    $result = $this->nodeStorage->getQuery()
+      ->condition('type', 'water_eco_action')
+      ->condition('status', 1)
+      ->range(0, $this->configuration['block_count'])
+      ->sort('title', 'ASC')
+      ->execute();
+
+    if ($result) {
+      $items = $this->nodeStorage->loadMultiple($result);
+
+      $build['list'] = [
+        '#theme' => 'item_list',
+        '#items' => [],
+      ];
+      foreach ($items as $item) {
+        $translatedItem = $this->entityRepository->getTranslationFromContext($item);
+        $url = Url::fromRoute('entity.node.canonical', array('node' => $translatedItem->nid->value));
+        $build['list']['#items'][$item->id()] = [
+          '#type' => 'markup',
+          '#markup' => Link::fromTextAndUrl($translatedItem->label(), $url)->toString(),
+        ];
+      }
+    }
+    else {
+      $build['no_items'] = [
+        '#type' => 'markup',
+        '#markup' => $this->t('There are no actions in your area.'),
+      ];
+    }
+    $build['#cache']['tags'][] = 'node_list';
+    return $build;
   }
 }
