@@ -26,7 +26,7 @@ abstract class AbstractAquiferManagerService {
    * always be called. If that method determines that the record does not exist
    * it will call this method.
    *
-   * @param array $aquifer_data
+   * @param array $aquiferData
    *   An associative array to define the aquifer record:
    *     name: The name of the aquifer
    *     coordinates: The longitude and latitude of the aquifer
@@ -42,6 +42,6 @@ abstract class AbstractAquiferManagerService {
    * @throws \UnexpectedValueException
    *   If the data contains an index that does not map to a field.
    */
-  abstract protected function createAquifer(array $aquifer_data);
+  abstract protected function createAquifer(array $aquiferData);
 
 }
