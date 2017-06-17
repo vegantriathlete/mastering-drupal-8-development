@@ -2,5 +2,8 @@ parameters:
   rest_endpoint: 'http://www.example.com/api/'
 services:
   aquifer.aquifer_retrieval_service:
-    class: Drupal\aquifer\AquiferRetrievalService
+    class: Drupal\iai_aquifer\AquiferRetrievalService
     arguments: ['%rest_endpoint%']
+  aquifer.aquifer_manager_service:
+    class: Drupal\iai_aquifer\AquiferManagerService
+    arguments: ['@entity.manager']
