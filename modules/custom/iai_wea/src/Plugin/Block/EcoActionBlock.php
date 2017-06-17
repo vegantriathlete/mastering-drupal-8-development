@@ -5,7 +5,9 @@ namespace Drupal\iai_wea\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Link;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -83,23 +85,73 @@ class EcoActionBlock extends BlockBase implements ContainerFactoryPluginInterfac
    * {@inheritdoc}
    */
   public function defaultConfiguration() {
+    // By default, the block will contain 5 items and set the radius to 10.
+    return array(
+      'block_count' => 5,
+    );
   }
 
   /**
    * {@inheritdoc}
    */
   public function blockForm($form, FormStateInterface $form_state) {
+    $range = range(2, 20);
+    $form['block_count'] = array(
+      '#type' => 'select',
+      '#title' => $this->t('Number of action items in block'),
+      '#default_value' => $this->configuration['block_count'],
+      '#options' => array_combine($range, $range),
+    );
+    return $form;
   }
 
   /**
    * {@inheritdoc}
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
+    $this->configuration['block_count'] = $form_state->getValue('block_count');
   }
 
   /**
    * {@inheritdoc}
    */
   public function build() {
+
+/******************************************************************************
+ **                                                                          **
+ ** We are just retrieving all of the eco actions. In a real situation we    **
+ ** would do something like filtering the actions so that they were within a **
+ ** certain radius of the user.                                              **
+ **                                                                          **
+ ******************************************************************************/
+    $result = $this->nodeStorage->getQuery()
+      ->condition('type', 'water_eco_action')
+      ->range(0, $this->configuration['block_count'])
+      ->sort('title', 'ASC')
+      ->execute();
+
+    if ($result) {
+      $items = $this->nodeStorage->loadMultiple($result);
+
+      $build['list'] = [
+        '#theme' => 'item_list',
+        '#items' => [],
+      ];
+      foreach ($items as $item) {
+        $url = Url::fromRoute('entity.node.canonical', array('node' => $item->nid->value));
+        $build['list']['#items'][$item->id()] = [
+          '#type' => 'markup',
+          '#markup' => Link::fromTextAndUrl($item->label(), $url)->toString(),
+        ];
+      }
+    }
+    else {
+      $build['no_items'] = [
+        '#type' => 'markup',
+        '#markup' => $this->t('There are no actions in your area.'),
+      ];
+    }
+    $build['#cache']['tags'][] = 'node_list';
+    return $build;
   }
 }
