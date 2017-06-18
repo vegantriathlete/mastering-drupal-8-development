@@ -9,7 +9,9 @@ namespace Drupal\iai_pig\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\file\Entity\File;
+use Drupal\iai_product\ProductManagerServiceInterface;
 use Drupal\node\NodeInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Display a given image for a given product
@@ -25,6 +27,41 @@ class DisplayProductImage extends ControllerBase {
  ** displayed inside the modal.                                              **
  **                                                                          **
  ******************************************************************************/
+
+  /**
+   * Presentation Manager Service.
+   *
+   * @var \Drupal\iai_product\ProductManagerServiceInterface
+   */
+  protected $productManagerService;
+
+/******************************************************************************
+ **                                                                          **
+ ** This is an example of Dependency Injection. The necessary objects are    **
+ ** being injected through the class's constructor.                          **
+ **                                                                          **
+ ******************************************************************************/
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(ProductManagerServiceInterface $product_manager_service) {
+    $this->productManagerService = $product_manager_service;
+  }
+
+/******************************************************************************
+ **                                                                          **
+ ** To learn more about Symfony's service container visit:                   **
+ **   http://symfony.com/doc/current/service_container.html                  **
+ **                                                                          **
+ ******************************************************************************/
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('iai_product.product_manager_service')
+    );
+  }
 
   /**
    * Display a product image
@@ -46,14 +83,14 @@ class DisplayProductImage extends ControllerBase {
  **                                                                          **
  ******************************************************************************/
 
-    if (isset($node->field_product_image[$delta])) {
-      $imageData = $node->field_product_image[$delta]->getValue();
-      $file = File::load($imageData['target_id']);
+    $productImages = $this->productManagerService->retrieveProductImages($node);
+    if (isset($productImages[$delta])) {
+      $file = File::load($productImages[$delta]['target_id']);
       $render_array['image_data'] = array(
         '#theme' => 'image_style',
         '#uri' => $file->getFileUri(),
         '#style_name' => 'product_large',
-        '#alt' => $imageData['alt'],
+        '#alt' => $productImages[$delta]['alt'],
       );
     }
     else {
