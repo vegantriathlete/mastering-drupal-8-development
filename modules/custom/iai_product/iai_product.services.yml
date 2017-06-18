@@ -1,0 +1,3 @@
+services:
+  iai_product.product_manager_service:
+    class: Drupal\iai_product\ProductManagerService
