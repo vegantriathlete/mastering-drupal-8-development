@@ -8,6 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Url;
+use Drupal\iai_personalization\PersonalizationIpServiceInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -28,6 +29,13 @@ class EcoActionBlock extends BlockBase implements ContainerFactoryPluginInterfac
    */
   protected $nodeStorage;
 
+  /**
+   * The personalization Ip Service.
+   *
+   * @var \Drupal\iai_personalization\PersonalizationIpServiceInterface
+   */
+  protected $personalizationIpService;
+
 /******************************************************************************
  **                                                                          **
  ** This is an example of Dependency Injection. The necessary objects are    **
@@ -45,10 +53,13 @@ class EcoActionBlock extends BlockBase implements ContainerFactoryPluginInterfac
    *   The plugin implementation definition.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
+   * @param \Drupal\iai_personalization\PersonalizationIpServiceInterface $personalization_ip_service
+   *   The personalization Ip Service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, PersonalizationIpServiceInterface $personalization_ip_service) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->nodeStorage = $entity_type_manager->getStorage('node');
+    $this->personalizationIpService = $personalization_ip_service;
   }
 
 /******************************************************************************
@@ -77,7 +88,8 @@ class EcoActionBlock extends BlockBase implements ContainerFactoryPluginInterfac
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('iai_personalization.personalization_ip_service')
     );
   }
 
@@ -88,6 +100,7 @@ class EcoActionBlock extends BlockBase implements ContainerFactoryPluginInterfac
     // By default, the block will contain 5 items and set the radius to 10.
     return array(
       'block_count' => 5,
+      'radius' => 10,
     );
   }
 
@@ -102,6 +115,12 @@ class EcoActionBlock extends BlockBase implements ContainerFactoryPluginInterfac
       '#default_value' => $this->configuration['block_count'],
       '#options' => array_combine($range, $range),
     );
+    $form['radius'] = array(
+      '#type' => 'select',
+      '#title' => $this->t('Radius (km) within which to search for action items.'),
+      '#default_value' => $this->configuration['radius'],
+      '#options' => array_combine($range, $range),
+    );
     return $form;
   }
 
@@ -110,6 +129,7 @@ class EcoActionBlock extends BlockBase implements ContainerFactoryPluginInterfac
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
     $this->configuration['block_count'] = $form_state->getValue('block_count');
+    $this->configuration['radius'] = $form_state->getValue('radius');
   }
 
   /**
@@ -124,6 +144,9 @@ class EcoActionBlock extends BlockBase implements ContainerFactoryPluginInterfac
  ** certain radius of the user.                                              **
  **                                                                          **
  ******************************************************************************/
+    $radius = $this->configuration['radius'];
+    $ip = $this->personalizationIpService->getIpAddress();
+    $coordinates = $this->personalizationIpService->mapIpAddress($ip);
     $result = $this->nodeStorage->getQuery()
       ->condition('type', 'water_eco_action')
       ->range(0, $this->configuration['block_count'])
@@ -133,6 +156,10 @@ class EcoActionBlock extends BlockBase implements ContainerFactoryPluginInterfac
     if ($result) {
       $items = $this->nodeStorage->loadMultiple($result);
 
+      $build['ip_address_and_radius'] = [
+        '#type' => 'markup',
+        '#markup' => $this->t('Eco actions within @radius kilometers of @coordinates [@ipaddress]', array('@radius' => $radius, '@ipaddress' => $ip, '@coordinates' => $coordinates)),
+      ];
       $build['list'] = [
         '#theme' => 'item_list',
         '#items' => [],
