@@ -7,3 +7,6 @@ block.settings.eco_action_block:
     block_count:
       type: integer
       label: 'Block count'
+    radius:
+      type: integer
+      label: 'Radius'
