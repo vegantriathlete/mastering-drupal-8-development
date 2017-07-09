@@ -44,7 +44,6 @@ $post_fields = array(
   ),
   'title' => array(0 => array('value' => 'My POSTed WEA - ' . $timestamp)),
   'type' => array(0 => array('target_id' => 'water_eco_action')),
-  'langcode' => array(0 => array('value' => 'en')),
   'field_wea_description' => array(0 => array('value' => 'I successfully created this with a POST operation at ' . $timestamp . '!')),
 );
 
