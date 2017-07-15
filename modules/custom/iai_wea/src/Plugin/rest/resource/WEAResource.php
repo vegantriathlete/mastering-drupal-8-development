@@ -385,4 +385,69 @@ class WEAResource extends ResourceBase {
     }
     throw new NotFoundHttpException(t('Water eco action item with ID @id was not found', array('@id' => $id)));
   }
+
+  /**
+   * Responds to water eco action DELETE requests.
+   *
+   * @param string $id
+   *   The ID of the object.
+   *
+   * @return \Drupal\rest\ModifiedResourceResponse
+   *   The HTTP response object.
+   *
+   * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+   */
+  public function delete($id) {
+
+/******************************************************************************
+ **                                                                          **
+ ** We must return some type of response, even if it is an exception. There  **
+ ** are many opportunities to throw exceptions in this method. Drupal will   **
+ ** turn the exception into an HTTP response.                                **
+ **                                                                          **
+ ******************************************************************************/
+
+    // Are we able to successfully load a node with that ID?
+    if ($node = Node::load($id)) {
+      // Is the client attempting to update a Water Eco Action item?
+      if ($node->getType() != 'water_eco_action') {
+        throw new BadRequestHttpException('You have not requested a Water Eco Action item.');
+      }
+
+/******************************************************************************
+ **                                                                          **
+ ** Make sure that you check that the client has access! You don't want your **
+ ** REST resources to create access bypass vulnerabilities.                  **
+ **                                                                          **
+ ******************************************************************************/
+      if (!$node->access('delete')) {
+        throw new AccessDeniedHttpException();
+      }
+      // Is the client deleting a particular translation?
+      if ($node->hasTranslation($this->currentLanguage->getId())) {
+
+/******************************************************************************
+ **                                                                          **
+ ** The DELETE verb does not pass any fields. We need to look at the language**
+ ** of the interface.                                                        **
+ **                                                                          **
+ ******************************************************************************/
+        $translatedNode = $node->getTranslation($this->currentLanguage->getId());
+      }
+      else {
+        throw new BadRequestHttpException('This translation does not yet exist.');
+      }
+      try {
+        $translatedNode->delete();
+        $this->logger->notice('Deleted water eco action with ID %id and language %language.', array('%id' => $id, '%language' => $this->currentLanguage->getName()));
+
+        // DELETE responses have an empty body.
+        return new ModifiedResourceResponse(NULL, 204);
+      }
+      catch (EntityStorageException $e) {
+        throw new HttpException(500, 'Internal Server Error', $e);
+      }
+    }
+    throw new NotFoundHttpException(t('Water eco action item with ID @id was not found', array('@id' => $id)));
+  }
 }
