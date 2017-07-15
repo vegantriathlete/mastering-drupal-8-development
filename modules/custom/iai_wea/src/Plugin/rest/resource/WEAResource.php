@@ -286,4 +286,103 @@ class WEAResource extends ResourceBase {
       throw new HttpException(500, 'Internal Server Error', $e);
     }
   }
+
+  /**
+   * Responds to PATCH requests and updates a water eco action item.
+   *
+   * @param string $id
+   *   The ID of the object.
+   * @param array $data
+   *   The PATCH data.
+   *
+   * @return \Drupal\rest\ModifiedResourceResponse
+   *   The HTTP response object.
+   *
+   * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+   */
+  public function patch($id, $data = NULL) {
+    if ($data == NULL) {
+      throw new BadRequestHttpException('No data received.');
+    }
+    // Are we able to successfully load a node with that ID?
+    if ($node = Node::load($id)) {
+      // Is the client attempting to update a Water Eco Action item?
+      if ($node->getType() != 'water_eco_action') {
+        throw new BadRequestHttpException('You have not requested a Water Eco Action item.');
+      }
+
+/******************************************************************************
+ **                                                                          **
+ ** Make sure that you check that the client has access! You don't want your **
+ ** REST resources to create access bypass vulnerabilities.                  **
+ **                                                                          **
+ ******************************************************************************/
+      if (!$node->access('update')) {
+        throw new AccessDeniedHttpException();
+      }
+      // Is the client updating a particular translation?
+      if (isset($data['language_code'])) {
+        if ($node->hasTranslation($data['language_code'])) {
+          $translatedNode = $node->getTranslation($data['language_code']);
+        }
+        else {
+          throw new BadRequestHttpException('This translation does not yet exist.');
+        }
+      }
+      else {
+        $translatedNode = $node;
+      }
+
+      if (isset($data['title'])) {
+        $translatedNode->set('title', $data['title']);
+      }
+      $wea_fields = array(
+        'contact_email',
+        'coordinates',
+        'description',
+        'status',
+        'urgency'
+      );
+      foreach ($wea_fields as $field) {
+        if (isset($data[$field])) {
+          // Note: We'd want to do some type of data validation
+          $translatedNode->set('field_wea_' . $field, $data[$field]);
+        }
+      }
+
+      try {
+        $translatedNode->save();
+
+/******************************************************************************
+ **                                                                          **
+ ** This message will get logged to the watchdog database file if you are    **
+ ** using database logging (dblog) and to your system log file if you are    **
+ ** using system logging (syslog).                                           **
+ **                                                                          **
+ ******************************************************************************/
+        $this->logger->notice('Updated water eco action item with ID %id.', array('%id' => $id));
+
+/******************************************************************************
+ **                                                                          **
+ ** We don't need to worry about how to serialize our data. Drupal will take **
+ ** care of that for us!                                                     **
+ **                                                                          **
+ ******************************************************************************/
+        // Return the updated node in the response body.
+        return new ModifiedResourceResponse($translatedNode, 200);
+      }
+      catch (EntityStorageException $e) {
+
+/******************************************************************************
+ **                                                                          **
+ ** We need to make sure that our method returns something, even if that is  **
+ ** an exception that we throw. Drupal will turn the exception into a        **
+ ** response.                                                                **
+ **                                                                          **
+ ******************************************************************************/
+        throw new HttpException(500, 'Internal Server Error', $e);
+      }
+    }
+    throw new NotFoundHttpException(t('Water eco action item with ID @id was not found', array('@id' => $id)));
+  }
 }
