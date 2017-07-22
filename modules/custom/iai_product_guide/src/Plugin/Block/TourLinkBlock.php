@@ -49,7 +49,7 @@ class TourLinkBlock extends BlockBase implements ContainerFactoryPluginInterface
  **                                                                          **
  ******************************************************************************/
   /**
-   * Constructs an TourLinkBlock object.
+   * Constructs a TourLinkBlock object.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
