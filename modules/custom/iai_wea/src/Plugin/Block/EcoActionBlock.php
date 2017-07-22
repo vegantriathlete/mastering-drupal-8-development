@@ -3,6 +3,7 @@
 namespace Drupal\iai_wea\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Link;
@@ -29,6 +30,23 @@ class EcoActionBlock extends BlockBase implements ContainerFactoryPluginInterfac
    */
   protected $nodeStorage;
 
+/******************************************************************************
+ **                                                                          **
+ ** We are going to use the Entity Repository to get the correct translation **
+ ** of the Aquifer. We know that we have only English language versions on   **
+ ** our site. However, we should always write our code to be ready for a     **
+ ** multi-lingual site. We can't assume that the code will be running on a   **
+ ** site with only one language. Thus, we will take the necessary steps in   **
+ ** our code even before we get to the Multi-lingual section of the course.  **
+ **                                                                          **
+ ******************************************************************************/
+  /**
+   * The entity repository.
+   *
+   * @var \Drupal\Core\Entity\EntityRepositoryInterface
+   */
+  protected $entityRepository;
+
   /**
    * The personalization Ip Service.
    *
@@ -53,12 +71,15 @@ class EcoActionBlock extends BlockBase implements ContainerFactoryPluginInterfac
    *   The plugin implementation definition.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
+   * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
+   *   The entity repository.
    * @param \Drupal\iai_personalization\PersonalizationIpServiceInterface $personalization_ip_service
    *   The personalization Ip Service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, PersonalizationIpServiceInterface $personalization_ip_service) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, EntityRepositoryInterface $entity_repository, PersonalizationIpServiceInterface $personalization_ip_service) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->nodeStorage = $entity_type_manager->getStorage('node');
+    $this->entityRepository = $entity_repository;
     $this->personalizationIpService = $personalization_ip_service;
   }
 
@@ -89,6 +110,7 @@ class EcoActionBlock extends BlockBase implements ContainerFactoryPluginInterfac
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
+      $container->get('entity.repository'),
       $container->get('iai_personalization.personalization_ip_service')
     );
   }
@@ -166,10 +188,11 @@ class EcoActionBlock extends BlockBase implements ContainerFactoryPluginInterfac
         '#items' => [],
       ];
       foreach ($items as $item) {
-        $url = Url::fromRoute('entity.node.canonical', array('node' => $item->nid->value));
+        $translatedItem = $this->entityRepository->getTranslationFromContext($item);
+        $url = Url::fromRoute('entity.node.canonical', array('node' => $translatedItem->nid->value));
         $build['list']['#items'][$item->id()] = [
           '#type' => 'markup',
-          '#markup' => Link::fromTextAndUrl($item->label(), $url)->toString(),
+          '#markup' => Link::fromTextAndUrl($translatedItem->label(), $url)->toString(),
         ];
       }
     }
