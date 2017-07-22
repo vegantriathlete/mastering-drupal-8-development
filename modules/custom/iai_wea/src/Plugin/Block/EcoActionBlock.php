@@ -149,6 +149,7 @@ class EcoActionBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $coordinates = $this->personalizationIpService->mapIpAddress($ip);
     $result = $this->nodeStorage->getQuery()
       ->condition('type', 'water_eco_action')
+      ->condition('status', 1)
       ->range(0, $this->configuration['block_count'])
       ->sort('title', 'ASC')
       ->execute();
