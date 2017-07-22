@@ -3,6 +3,7 @@
 namespace Drupal\iai_aquifer\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -28,6 +29,23 @@ class AquiferBlock extends BlockBase implements ContainerFactoryPluginInterface 
 
 /******************************************************************************
  **                                                                          **
+ ** We are going to use the Entity Repository to get the correct translation **
+ ** of the Aquifer. We know that we have only English language versions on   **
+ ** our site. However, we should always write our code to be ready for a     **
+ ** multi-lingual site. We can't assume that the code will be running on a   **
+ ** site with only one language. Thus, we will take the necessary steps in   **
+ ** our code even before we get to the Multi-lingual section of the course.  **
+ **                                                                          **
+ ******************************************************************************/
+  /**
+   * The entity repository.
+   *
+   * @var \Drupal\Core\Entity\EntityRepositoryInterface
+   */
+  protected $entityRepository;
+
+/******************************************************************************
+ **                                                                          **
  ** This is an example of Dependency Injection. The necessary objects are    **
  ** being injected through the class's constructor.                          **
  **                                                                          **
@@ -43,8 +61,10 @@ class AquiferBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *   The plugin implementation definition.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
+   * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
+   *   The entity repository.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, EntityRepositoryInterface $entity_repository) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
 /******************************************************************************
@@ -63,6 +83,7 @@ class AquiferBlock extends BlockBase implements ContainerFactoryPluginInterface 
  **                                                                          **
  ******************************************************************************/
     $this->nodeStorage = $entity_type_manager->getStorage('node');
+    $this->entityRepository = $entity_repository;
   }
 
 /******************************************************************************
@@ -91,7 +112,8 @@ class AquiferBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('entity.repository')
     );
   }
 
@@ -154,9 +176,10 @@ class AquiferBlock extends BlockBase implements ContainerFactoryPluginInterface 
         '#items' => [],
       ];
       foreach ($items as $item) {
+        $translatedItem = $this->entityRepository->getTranslationFromContext($item);
         $build['list']['#items'][$item->id()] = [
           '#type' => 'markup',
-          '#markup' => $item->label(),
+          '#markup' => $translatedItem->label(),
         ];
       }
 
