@@ -50,6 +50,14 @@ class AquiferManagerService extends AbstractAquiferManagerService implements Aqu
     foreach ($aquiferData as $property => $value) {
       $values['field_aquifer_' . $property] = $value;
     }
+
+/******************************************************************************
+ **                                                                          **
+ ** We haven't specified a 'langcode' for the node. When Drupal creates the  **
+ ** node it will assign the site's default language, which in our case is    **
+ ** English. The node's langcode will be set to 'en'.                        **
+ **                                                                          **
+ ******************************************************************************/
     $node = $this->nodeStorage->create($values);
     $this->nodeStorage->save($node);
     return (object) array('status' => 'created', 'object' => $node);
