@@ -323,18 +323,18 @@ class WEAResource extends ResourceBase {
       // Is the client updating a particular translation?
       if (isset($data['language_code'])) {
         if ($node->hasTranslation($data['language_code'])) {
-          $translated_node = $node->getTranslation($data['language_code']);
+          $translatedNode = $node->getTranslation($data['language_code']);
         }
         else {
           throw new BadRequestHttpException('This translation does not yet exist.');
         }
       }
       else {
-        $translated_node = $node;
+        $translatedNode = $node;
       }
 
       if (isset($data['title'])) {
-        $translated_node->set('title', $data['title']);
+        $translatedNode->set('title', $data['title']);
       }
       $wea_fields = array(
         'contact_email',
@@ -346,12 +346,12 @@ class WEAResource extends ResourceBase {
       foreach ($wea_fields as $field) {
         if (isset($data[$field])) {
           // Note: We'd want to do some type of data validation
-          $translated_node->set('field_wea_' . $field, $data[$field]);
+          $translatedNode->set('field_wea_' . $field, $data[$field]);
         }
       }
 
       try {
-        $translated_node->save();
+        $translatedNode->save();
 
 /******************************************************************************
  **                                                                          **
@@ -369,7 +369,7 @@ class WEAResource extends ResourceBase {
  **                                                                          **
  ******************************************************************************/
         // Return the updated node in the response body.
-        return new ModifiedResourceResponse($translated_node, 200);
+        return new ModifiedResourceResponse($translatedNode, 200);
       }
       catch (EntityStorageException $e) {
 
