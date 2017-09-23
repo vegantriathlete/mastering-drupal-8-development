@@ -1,0 +1,9 @@
+# Schema for the configuration files of the IAI Product Image Gallery module.
+
+block.settings.iai_product_image_gallery:
+  type: block_settings
+  label: 'Product Image Gallery block'
+  mapping:
+    block_count:
+      type: integer
+      label: 'Block count'
