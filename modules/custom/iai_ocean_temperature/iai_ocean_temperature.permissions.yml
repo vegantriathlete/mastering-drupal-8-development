@@ -1,0 +1,13 @@
+#
+#  For more information on *.permissions.yml
+#  @see: https://www.drupal.org/node/2311427
+#
+
+'delete iai_ocean_temperature entity':
+  title: Delete IAI Ocean Temperature Data
+'add iai_ocean_temperature entity':
+  title: Add IAI Ocean Temperature Data
+'view iai_ocean_temperature entity':
+  title: View IAI Ocean Temperature Data
+'edit iai_ocean_temperature entity':
+  title: Edit IAI Ocean Temperature Data

@@ -1,0 +1,11 @@
+#
+#  For more information on *.links.menu.yml
+#  @see: https://www.drupal.org/docs/8/api/menu-api/providing-module-defined-menu-links
+#        https://www.drupal.org/node/2228089
+#
+
+entity.iai_ocean_temperature.collection:
+  title: 'IAI Ocean Data'
+  route_name: entity.iai_ocean_temperature.collection
+  parent: system.admin_structure
+  description: 'List and manage IAI Ocean Temperature Data'
