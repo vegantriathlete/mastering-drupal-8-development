@@ -1,0 +1,11 @@
+#
+#  For more information on *.links.action.yml
+#  @see: https://www.drupal.org/node/2007444
+#        https://www.drupal.org/docs/8/api/menu-api/providing-module-defined-actions
+#
+
+entity.iai_ocean_temperature.add_form:
+  route_name: entity.iai_ocean_temperature.add_form
+  title: 'Add IAI Ocean Temperature Data'
+  appears_on:
+    - entity.iai_ocean_temperature.collection

@@ -1,0 +1,5 @@
+name: IAI Ocean Temperature
+type: module
+description: Collects data on the ocean temperature
+package: MD8D
+core: 8.x

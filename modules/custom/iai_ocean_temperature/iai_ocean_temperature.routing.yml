@@ -1,0 +1,51 @@
+#
+#  These route names do follow a particular pattern
+#  @see: https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/group/entity_api/8.5.x
+#
+#  The \d+ requirement specifies that the iai_ocean_temperature must be numeric
+#  digits.
+#  @see: https://www.drupal.org/docs/8/api/routing-system/parameters-values-validation-in-routes
+#
+
+entity.iai_ocean_temperature.canonical:
+  path: '/iai_ocean_temperature/{iai_ocean_temperature}'
+  defaults:
+    _entity_view: 'iai_ocean_temperature'
+    _title: 'IAI Ocean Temperature Data'
+  requirements:
+    _entity_access: 'iai_ocean_temperature.view'
+    iai_ocean_temperature: \d+
+
+entity.iai_ocean_temperature.collection:
+  path: '/iai_ocean_temperature/list'
+  defaults:
+    _entity_list: 'iai_ocean_temperature'
+    _title: 'IAI Ocean Temperature Data'
+  requirements:
+    _permission: 'view iai_ocean_temperature entity'
+
+entity.iai_ocean_temperature.add_form:
+  path: '/iai_ocean_temperature/add'
+  defaults:
+    _entity_form: iai_ocean_temperature.default
+    _title: 'Add IAI Ocean Temperature Data'
+  requirements:
+    _entity_create_access: 'iai_ocean_temperature'
+
+entity.iai_ocean_temperature.edit_form:
+  path: '/iai_ocean_temperature/{iai_ocean_temperature}/edit'
+  defaults:
+    _entity_form: iai_ocean_temperature.default
+    _title: 'Edit IAI Ocean Temperature Data'
+  requirements:
+    _entity_access: 'iai_ocean_temperature.update'
+    iai_ocean_temperature: \d+
+
+entity.iai_ocean_temperature.delete_form:
+  path: '/iai_ocean_temperature/{iai_ocean_temperature}/delete'
+  defaults:
+    _entity_form: iai_ocean_temperature.delete
+    _title: 'Delete IAI Ocean Temperature Data'
+  requirements:
+    _entity_access: 'iai_ocean_temperature.delete'
+    iai_ocean_temperature: \d+
