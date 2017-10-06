@@ -49,3 +49,11 @@ entity.iai_ocean_temperature.delete_form:
   requirements:
     _entity_access: 'iai_ocean_temperature.delete'
     iai_ocean_temperature: \d+
+
+iai_ocean_temperature.table_list:
+  path: '/iai_ocean_temperature/entity-list'
+  defaults:
+    _controller: '\Drupal\iai_ocean_temperature\Controller\IaiOceanTemperatureDataListing::build'
+    _title: 'IAI Ocean Temperature Data Listing'
+  requirements:
+    _permission: 'view iai_ocean_temperature entity'
