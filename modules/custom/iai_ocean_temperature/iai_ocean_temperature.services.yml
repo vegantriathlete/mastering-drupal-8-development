@@ -1,0 +1,3 @@
+services:
+  iai_ocean_temperature.data_validation_service:
+    class: Drupal\iai_ocean_temperature\IaiOceanTemperatureDataValidationService
