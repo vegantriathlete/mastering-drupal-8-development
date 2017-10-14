@@ -761,21 +761,6 @@ $settings['file_scan_ignore_directories'] = [
   'bower_components',
 ];
 
-/**
- * Load local development override configuration, if available.
- *
- * Use settings.local.php to override variables on secondary (staging,
- * development, etc) installations of this site. Typically used to disable
- * caching, JavaScript/CSS compression, re-routing of outgoing emails, and
- * other things that should not happen on development and testing sites.
- *
- * Keep this code block at the end of this file to take full effect.
- */
-#
-# if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
-#   include $app_root . '/' . $site_path . '/settings.local.php';
-# }
-
 /******************************************************************************
  **                                                                          **
  ** Things will be much easier for you to use the repository if you ensure   **
@@ -798,3 +783,18 @@ $databases['default']['default'] = array (
 );
 $settings['install_profile'] = 'standard';
 $config_directories['sync'] = 'sites/default/files/config_HvCBO5IycL0D8s32L29fkqized3PWL1JzWGh7vhk7mkNq7NXZ9X_lmgsQ1zcbOcq6m3dTz_-xw/sync';
+
+/**
+ * Load local development override configuration, if available.
+ *
+ * Use settings.local.php to override variables on secondary (staging,
+ * development, etc) installations of this site. Typically used to disable
+ * caching, JavaScript/CSS compression, re-routing of outgoing emails, and
+ * other things that should not happen on development and testing sites.
+ *
+ * Keep this code block at the end of this file to take full effect.
+ */
+#
+if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
+  include $app_root . '/' . $site_path . '/settings.local.php';
+}
