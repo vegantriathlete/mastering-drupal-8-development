@@ -1,0 +1,4 @@
+name: Mastering Drupal 8 Development Theme
+type: theme
+description: A basic custom theme for the Mastering Drupal 8 Development class
+core: 8.x
