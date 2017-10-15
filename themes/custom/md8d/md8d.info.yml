@@ -2,3 +2,25 @@ name: Mastering Drupal 8 Development Theme
 type: theme
 description: A basic custom theme for the Mastering Drupal 8 Development class
 core: 8.x
+
+base theme: classy
+
+#******************************************************************************
+#**                                                                          **
+#** We are choosing the machine names for our regions based on what          **
+#** classy/templates/layout/page.html.twig recognizes because this is what   **
+#** we are inheriting. However, you should pay attention to where that       **
+#** template places each region. We'd prefer the secondary region to appear  **
+#** above the header region. That's not what classy's template does, though. **
+#** We can copy that template into our theme and modify it to our liking,    **
+#** if we choose.                                                            **
+#**                                                                          **
+#******************************************************************************
+regions:
+  secondary_menu: 'User Menu'
+  header: Header
+  primary_menu: 'Primary Menu'
+  help: Help
+  content: 'Main Content'
+  sidebar_first: Sidebar
+  footer: Footer
