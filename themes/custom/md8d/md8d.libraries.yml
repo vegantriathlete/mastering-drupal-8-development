@@ -1,0 +1,18 @@
+#
+#  To learn more about using libraries for asset managment
+#  @see: https://www.drupal.org/docs/8/theming-drupal-8/adding-stylesheets-css-and-javascript-js-to-a-drupal-8-theme
+#  @see: https://www.drupal.org/docs/8/creating-custom-modules/adding-stylesheets-css-and-javascript-js-to-a-drupal-8-module
+#  The second link also explains more about the use of the component key below
+#
+global-styling:
+  version: 1.x
+  css:
+    component:
+      css/components/main-content.css: {}
+      css/components/sidebar.css: {}
+
+front-page:
+  version: 1.x
+  css:
+    theme:
+      css/theme/front-page.css: {}

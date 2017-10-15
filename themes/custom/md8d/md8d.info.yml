@@ -5,6 +5,9 @@ core: 8.x
 
 base theme: classy
 
+libraries:
+  - md8d/global-styling
+
 #******************************************************************************
 #**                                                                          **
 #** We are choosing the machine names for our regions based on what          **
