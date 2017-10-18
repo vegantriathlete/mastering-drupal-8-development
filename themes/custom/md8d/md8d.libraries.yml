@@ -16,3 +16,13 @@ front-page:
   css:
     theme:
       css/theme/front-page.css: {}
+
+book-page:
+  version: 1.x
+  css:
+    theme:
+      css/theme/book-page.css: {}
+  js:
+    js/silly-effect.js: {}
+  dependencies:
+    - core/jquery
