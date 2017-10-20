@@ -2,3 +2,20 @@
  * @file
  * Visual styles for MD8D's main-content component.
  */
+.layout-content {
+  padding: 0 2%;
+}
+
+@media all and (min-width: 560px) {
+  .layout-content {
+    float: left; /* LTR */
+    margin-left: 30%; /* LTR */
+    position: relative;
+    width: 65%;
+  }
+  [dir="rtl"] .layout-content {
+    float: right;
+    margin-left: 0%;
+    margin-right: 30%;
+  }
+}

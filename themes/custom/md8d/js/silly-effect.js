@@ -9,7 +9,7 @@
 (function ($, Drupal) {
   Drupal.behaviors.mySillyEffect = {
     attach: function (context, settings) {
-      $('.helloWorld', context);
+      $('.helloWorld', context).hide().fadeIn(1500).fadeOut(500).fadeIn(1500);
     }
   };
 })(jQuery, Drupal);

@@ -1,1 +1,14 @@
 /* ------------------ Sidebar ----------------- */
+@media all and (min-width: 560px) {
+  .layout-sidebar-first {
+    float: left; /* LTR */
+    margin-left: -99%; /* LTR */
+    position: relative;
+    width: 30%;
+  }
+  [dir="rtl"] .layout-sidebar-first {
+    float: right;
+    margin-left: 0%;
+    margin-right: -99%;
+  }
+}

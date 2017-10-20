@@ -1,4 +1,7 @@
 /**
  * @file
- * md8d Front page styling.
+ * md8d Book page styling.
  */
+.helloWorld {
+  text-shadow: 1px 1px 1px red;
+}

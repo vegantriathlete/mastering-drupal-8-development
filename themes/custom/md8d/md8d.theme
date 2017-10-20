@@ -20,4 +20,5 @@ function md8d_preprocess_page(&$variables) {
  * Implements hook_preprocess_HOOK() for node--book--full templates.
  */
 function md8d_preprocess_node__book__full(&$variables) {
+  $variables['hello_world'] = 'Mastering Drupal 8 Development is amazing!';
 }
