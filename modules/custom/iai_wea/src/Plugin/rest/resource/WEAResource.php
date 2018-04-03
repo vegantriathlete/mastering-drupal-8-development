@@ -159,7 +159,7 @@ class WEAResource extends ResourceBase {
  ******************************************************************************/
     if (!empty($record)) {
       $response = new ResourceResponse($record, 200);
-      $response->addCacheableDependency($record);
+      $response->addCacheableDependency($translatedNode);
       return $response;
     }
 
