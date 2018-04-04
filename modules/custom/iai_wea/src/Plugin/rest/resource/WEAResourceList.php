@@ -2,6 +2,7 @@
 
 namespace Drupal\iai_wea\Plugin\rest\resource;
 
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\rest\Plugin\ResourceBase;
@@ -164,7 +165,13 @@ class WEAResourceList extends ResourceBase {
  ******************************************************************************/
     if (!empty($record)) {
       $response = new ResourceResponse($record);
-      $response->addCacheableDependency($record);
+      $response->addCacheableDependency(CacheableMetadata::createFromRenderArray([
+        '#cache' => [
+          'tags' => [
+            'water_eco_action_list',
+          ],
+        ],
+      ]));
       return $response;
     }
 
