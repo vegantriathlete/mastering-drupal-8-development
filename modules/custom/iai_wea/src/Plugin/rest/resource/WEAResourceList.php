@@ -168,7 +168,7 @@ class WEAResourceList extends ResourceBase {
       $response->addCacheableDependency(CacheableMetadata::createFromRenderArray([
         '#cache' => [
           'tags' => [
-            'water_eco_action_list',
+            'node_list',
           ],
         ],
       ]));
