@@ -152,7 +152,7 @@ class OceanTemperatureDataResource extends ResourceBase {
 
     if (!empty($record)) {
       $response = new ResourceResponse($record, 200);
-      $response->addCacheableDependency($record);
+      $response->addCacheableDependency($translatedOceanTemperatureData);
       return $response;
     }
 

@@ -2,6 +2,7 @@
 
 namespace Drupal\iai_ocean_temperature\Plugin\rest\resource;
 
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\rest\Plugin\ResourceBase;
@@ -118,7 +119,13 @@ class OceanTemperatureDataResourceList extends ResourceBase {
 
     if (!empty($record)) {
       $response = new ResourceResponse($record);
-      $response->addCacheableDependency($record);
+      $response->addCacheableDependency(CacheableMetadata::createFromRenderArray([
+        '#cache' => [
+          'tags' => [
+            'iai_ocean_temperature_list',
+          ],
+        ],
+      ]));
       return $response;
     }
 
