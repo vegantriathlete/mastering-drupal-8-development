@@ -40,5 +40,4 @@ Marc has attended and presented at many Drupal camps, including DrupalCamp Color
 ### Some places you can find Marc online:
 * https://www.drupal.org/u/vegantriathlete
 * https://www.isaacsonwebdevelopment.com
-* https://www.howtobeasuccessfulwebdeveloper.com
 * https://www.linkedin.com/in/marceisaacson/
